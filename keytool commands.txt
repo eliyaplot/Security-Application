@@ -1,0 +1,12 @@
+
+keytool -genkeypair -alias userA -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -dname "CN=User A, OU=IDC, O=Computer science, L=Herzliya, S=none, C=Israel" -keypass bestpassA -validity 365 -storetype PKCS12 -keystore userA.keystore -storepass bestpassA
+
+keytool -genkeypair -alias userB -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -dname "CN=User B, OU=IDC, O=Computer science, L=Herzliya, S=none, C=Israel" -keypass bestpassB -validity 365 -storetype PKCS12 -keystore userB.keystore -storepass bestpassB
+
+keytool -export -alias userB -file certb.cer -keystore userB.keystore
+
+keytool -export -alias userA -file certa.cer -keystore userA.keystore
+
+keytool -import -v -trustcacerts -alias userB -file certb.cer -keystore userA.keystore -keypass bestpassA
+
+keytool -import -v -trustcacerts -alias userA -file certa.cer -keystore userB.keystore -keypass bestpassB
